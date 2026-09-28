@@ -3,7 +3,7 @@
 > No `(P)` markers: this is a single vertical slice — sub-tasks share the chat service file and each other's contracts (2.3 consumes the message-accepted contract 2.2 defines), so order is the dependency mechanism.
 
 - [ ] 1. Foundation: chat storage and contracts
-- [ ] 1.1 Chat and message storage
+- [x] 1.1 Chat and message storage
   - Create the Liquibase changeset file `005-create-chat.sql` (two changesets — chat, message — each with `--comment` and explicit `--rollback`), with the canonical-pair unique constraint, the pair-order check, both foreign keys, the `(chat_id, id)` index, and `VARCHAR(2000)` text.
   - Register the file in the Liquibase master index (append only; never edit existing entries).
   - Add the `Chat` and `Message` entities in the chat package: plain `Long` dog references (no associations), `Instant` timestamps assigned by the service, mutable-class style matching the existing `Dog` entity.
@@ -58,3 +58,7 @@
   - Observable: every smoke step behaves per the requirements — live delivery, ordering, replay, and access rejection all verified against the running application.
   - _Boundary: chat slice_
   - _Requirements: 1.1, 1.2, 2.1, 3.1, 3.4, 4.1, 5.1_
+## Implementation Notes
+
+- Spring Boot 4.1 / Hibernate 7 in this repo does **not** convert camelCase to snake_case (implicit naming lowercases only: `dogAId` → `dogaid`). Every multi-word column needs an explicit `@Column(name = "snake_case")` or `ddl-auto: validate` fails with `missing column`.
+- Host port 5432 may be held by another project's compose stack; for startup verification use an ephemeral `postgres:18-alpine` on a spare port plus the `DATABASE_URL` env override — the config is env-first by design.
