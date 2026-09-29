@@ -18,6 +18,10 @@ CREATE TABLE chat (
     CONSTRAINT uq_chat_pair UNIQUE (dog_a_id, dog_b_id),
     CONSTRAINT ck_chat_pair_order CHECK (dog_a_id < dog_b_id)
 );
+-- uq_chat_pair only covers lookups where the dog is dog_a_id; a dog whose id is
+-- the higher one sits in dog_b_id, which no index covers. Index it so both
+-- sides of a pair are queryable.
+CREATE INDEX idx_chat_dog_b ON chat (dog_b_id);
 --rollback DROP TABLE chat;
 
 --changeset tinder4dogs:006-create-message
