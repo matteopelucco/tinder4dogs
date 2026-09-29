@@ -11,7 +11,7 @@
   - _Boundary: chat storage_
   - _Requirements: 1.1, 1.2, 2.1, 2.2_
 
-- [ ] 1.2 Cross-feature event contract and repositories
+- [x] 1.2 Cross-feature event contract and repositories
   - Add the `CreateChatEvent` contract class with KDoc stating the emission semantics: fired once at the end of a successful swipe + mutual match, dog ids unordered, both dogs existing and distinct; idempotency is consumer-side.
   - Add `ChatRepository`: canonical pair lookup, a transaction-scoped advisory-lock method (`pg_advisory_xact_lock` via a native query), and the participant list query ordered by last activity (`coalesce` of last message time and creation time, descending).
   - Add `MessageRepository`: history in acceptance order, watermark catch-up fetch, newest-message lookup.
