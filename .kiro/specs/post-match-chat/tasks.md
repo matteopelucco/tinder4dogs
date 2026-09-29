@@ -20,7 +20,7 @@
   - _Requirements: 1.1, 1.2, 3.2, 3.4, 4.1, 5.1_
 
 - [ ] 2. Core: domain rules and live delivery
-- [ ] 2.1 Chat creation on a mutual match
+- [x] 2.1 Chat creation on a mutual match
   - Implement the chat service's match listener: canonical `(min, max)` pair, lookup-first idempotency with the unique-constraint violation as the concurrent backstop (re-fetch on violation), dog existence via the dog repository, distinct-dog validation.
   - Reject invalid events by logging WARN with the reason and returning normally — a committed match flow must never fail because chat creation declined.
   - Unit tests (Mockito for repositories): pair stored in canonical order; duplicate event reuses the existing chat without a second save; event for an unknown dog is rejected without saving; event naming the same dog twice is rejected without saving.
